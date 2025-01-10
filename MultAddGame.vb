@@ -38,7 +38,7 @@ Public Class MultAddGame
     Friend Property UserInput As New Text.StringBuilder
 
     Protected Overrides Function OnUserUpdate(elapsedTime As Single) As Boolean
-        Static score As New Integer, quest As New MultAddQuest(False)
+        Static score As New Integer, quest As New MultAddQuest(False), sw As New Stopwatch
         Static prevAnswer As String = String.Empty, prevQuest As String = String.Empty
         FillRect(New Vi2d, New Vi2d(ScreenWidth, ScreenHeight), Presets.Black)
         DrawString(New Vi2d, "Press ESC to exit anytime.", Presets.Gray)
@@ -52,24 +52,31 @@ Public Class MultAddGame
         DrawString(inputPos, UserInput.ToString(), Presets.Mint, 3)
         DrawString(New Vi2d(80, 100), "Previous Answer: " & prevAnswer, Presets.Cyan, 2)
 
+        Dim ResetInputAndTimer = Sub()
+                                     UserInput.Clear()
+                                     sw.Stop()
+                                     sw.Reset()
+                                 End Sub
+
         For k As Key = Key.K0 To Key.K9 Step CType(1, Key)
             If GetKey(k).Pressed Then UserInput.Append(CStr(k - 27))
         Next k
-        If GetKey(Key.BACK).Pressed Then UserInput.Clear()
+        If GetKey(Key.BACK).Pressed Then ResetInputAndTimer()
 
         Dim answer As New Single
         If Single.TryParse(UserInput.ToString(), answer) Then
+            sw.Start()
             If answer = quest.Result Then
                 prevAnswer = quest.Result.ToString()
                 prevQuest = quest.ToString()
                 Do
                     quest = New MultAddQuest(Rnd > 0.3)
                 Loop Until quest.ToString() <> prevQuest
-                UserInput.Clear()
                 score += 1
-            ElseIf answer > 99 Then
+                ResetInputAndTimer()
+            ElseIf sw.ElapsedMilliseconds > 1500 Then
                 prevAnswer = String.Empty
-                UserInput.Clear()
+                ResetInputAndTimer()
             End If
         End If
 
