@@ -36,10 +36,10 @@ to encourage focus and accuracy.
 ## Development
 
 This game was developed using the [vbPixelGameEngine](https://github.com/DualBrain/vbPixelGameEngine), 
-a fantastic game engine created by the talented developer [@Dual Brain](https://github.com/DualBrain).
+a fantastic game engine created by the talented developer [@DualBrain](https://github.com/DualBrain).
 
 If you find this project interesting or have any suggestions, feel free to star it or leave a 
-comment. Please also keep in touch with [@Dual Brain](https://github.com/Dual-Brain) for creating
+comment. Please also keep in touch with [@DualBrain](https://github.com/Dual-Brain) for creating
 such a great tool that made this project possible!
 
 ## Contribution
